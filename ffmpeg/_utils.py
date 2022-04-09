@@ -98,6 +98,12 @@ def convert_kwargs_to_cmd_line_args(kwargs):
         v = kwargs[k]
         if isinstance(v, Iterable) and not isinstance(v, str):
             for value in v:
+                if isinstance(value, Iterable) and not isinstance(value, str):
+                    args.append('-{}{}'.format(k, value[0]))
+                    for remainder in value[1:]: 
+                        if remainder is not None:
+                            args.append('{}'.format(remainder))
+                    continue
                 args.append('-{}'.format(k))
                 if value is not None:
                     args.append('{}'.format(value))
